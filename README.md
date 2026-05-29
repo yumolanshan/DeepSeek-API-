@@ -129,4 +129,4 @@ python app.py
 
 ---
 
-以上使用 DeepSeek 完善的我的 README.md 草稿
+以上使用 DeepSeek 完善的我的 README.md
