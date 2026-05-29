@@ -27,6 +27,10 @@ def force_exit(exit_code=0):
     """强制终止程序, exit_code 为退出状态码 (0 表示正常，非 0 表示错误) """
     os._exit(exit_code)
 
+def get_now_datetime() -> str:
+    """返回当前日期时间，供 AI 提示使用。"""
+    return datetime.now().strftime('%Y年%m月%d日 %H:%M:%S')
+
 DEEPSEEK_API_KEY = ''   # 不使用环境变量，可以在此添加密钥 (sk-a……)
 if not DEEPSEEK_API_KEY:
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
@@ -280,7 +284,13 @@ def chat(request: ChatRequest):
             )
             history = cur.fetchall()
 
-            messages = [{"role": "system", "content": AI_PERSONALITY}]
+            messages = [
+                {"role": "system", "content": AI_PERSONALITY},
+                {
+                    "role": "system",
+                    "content": f"当前时间：{get_now_datetime()}\n请你以此时间为参考来理解用户问题。"
+                },
+            ]
             for m in history:
                 messages.append({"role": m["role"], "content": m["content"]})
 
